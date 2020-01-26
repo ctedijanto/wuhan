@@ -16,9 +16,11 @@ natcov <- as_tibble(natcov)
 fignatcov <- natcov %>% 
 	pivot_longer(c("CoVHKU1","CoVNL63","CoVOC43","CoV229E"), names_to="Virus", values_to="PercentPositive") %>%
 	ggplot(aes(x=Week, y=PercentPositive, col=Virus)) + 
-	geom_point(alpha=0.8, size=0.5) +
-	geom_line(alpha=0.8, size=1) + 
-	theme_minimal() 
+		scale_color_manual(values=c("blue","red","black","magenta")) + 
+		# scale_color_brewer(type="qual", palette=4) + 
+		geom_point(alpha=0.8, size=0.5) +
+		geom_line(alpha=0.8, size=1) + 
+		theme_minimal() 
 
 ggsave(fignatcov, file="~/DropboxHarvard/Projects/Wuhan/natcov.pdf", width=7, height=5)
 
