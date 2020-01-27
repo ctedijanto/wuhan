@@ -24,3 +24,22 @@ fignatcov <- natcov %>%
 
 ggsave(fignatcov, file="~/DropboxHarvard/Projects/Wuhan/natcov.pdf", width=7, height=5)
 
+# =============================================================================
+# Plot number of tests over time from Killerby et al.
+# =============================================================================
+
+
+ntests <- read.csv('ntests.csv', colClasses=c("integer","character"))
+ntests$WEEK <- as_date(ntests$WEEK)
+ntests <- as_tibble(ntests)
+
+figtestsperweek <- ntests %>% 
+	ggplot(aes(x=WEEK, y=NTESTS)) + 
+		geom_col() + 
+		expand_limits(y=c(0,14000))  + 
+		scale_y_continuous(breaks=seq(from=0, to=14000, by=2000)) + 
+		labs(x="", y="No. of tests/week") + 
+		theme_minimal() + 
+		theme(text=element_text(size=16))
+
+ggsave(figtestsperweek, file="~/DropboxHarvard/Projects/Wuhan/testsperweek.pdf", width=12, height=5)
