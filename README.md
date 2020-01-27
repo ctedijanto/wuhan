@@ -10,6 +10,14 @@ __NationalCoV.csv:__ Dataset containing percent positive coronavirus by virus ty
 
 __ntests.csv:__ Number of tests performed weekly between 1 July 2014 and 27 June 2017 to detect any of the four coronaviruses reported to NREVSS, scraped from Figure 1A by Killerby _et al._ (2018) using PlotDigitizer. 
 
+__ILINet.csv:__ Weekly ILI data from the CDC 
+
+__LabFluByWeek.csv:__ Laboratory-confirmed influenza counts by age group as reported by the CDC (FluView Interactive) 
+
+__NREVSSClinicalFlu.csv:__ Another lab-confirmed influenza dataset from the CDC capturing clinical samples as reported to the NREVSS dataset. Also accessed through FluView Interactive. 
+
+__YearWeekConversion.csv:__ A useful data frame for converting between the CDC's Year/Week numbering system to a date. Note that the dates fall on Saturdays, following the CoV data, whereas flu data are normally tagged on Sundays. Add 1 to each date to get to the corresponding Sunday. 
+
 ## Figures
 __natcov.pdf:__ Depicts weekly percent positive by coronavirus from the NationalCoV.csv dataset.
 
