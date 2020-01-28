@@ -1,6 +1,6 @@
 # Data and code for examining coronavirus transmission
 
-## Scripts
+## Code
 
 __nrevss.R:__ script for reading and producing figures from the coronavirus incidene data
 

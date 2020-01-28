@@ -5,11 +5,11 @@
 library(tidyverse)
 library(lubridate)
 
-natcov <- read.csv('NationalCoV.csv', colClasses=c("character","numeric","numeric","numeric","numeric"))
+natcov <- read.csv('data/NationalCoV.csv', colClasses=c("character","numeric","numeric","numeric","numeric"))
 natcov$Week <- as_date(natcov$Week)
 natcov <- as_tibble(natcov)
 
-yearweekconversion <- read.csv('YearWeekConversion.csv', colClasses=c("integer","integer","character"))
+yearweekconversion <- read.csv('data/YearWeekConversion.csv', colClasses=c("integer","integer","character"))
 yearweekconversion$Date <- as_date(yearweekconversion$Date)
 yearweekconversion <- as_tibble(yearweekconversion)
 
@@ -27,13 +27,13 @@ fignatcov <- natcov %>%
 		geom_line(alpha=0.8, size=1) + 
 		theme_minimal() 
 
-ggsave(fignatcov, file="~/DropboxHarvard/Projects/Wuhan/natcov.pdf", width=7, height=5)
+ggsave(fignatcov, file="figures/natcov.pdf", width=7, height=5)
 
 # =============================================================================
 # Plot number of tests over time from Killerby et al.
 # =============================================================================
 
-ntests <- read.csv('ntests.csv', colClasses=c("integer","character"))
+ntests <- read.csv('data/ntests.csv', colClasses=c("integer","character"))
 ntests$WEEK <- as_date(ntests$WEEK)
 ntests <- as_tibble(ntests)
 
@@ -46,13 +46,13 @@ figtestsperweek <- ntests %>%
 		theme_minimal() + 
 		theme(text=element_text(size=16))
 
-ggsave(figtestsperweek, file="~/DropboxHarvard/Projects/Wuhan/testsperweek.pdf", width=12, height=5)
+ggsave(figtestsperweek, file="figures/testsperweek.pdf", width=12, height=5)
 
 # =============================================================================
 # Examine ILINet data
 # =============================================================================
 
-ili <- read.csv('ILINet.csv', colClasses=c("character","NULL","integer","integer","numeric","numeric","integer","integer","NULL","integer","integer","integer","integer","integer","integer"))
+ili <- read.csv('data/ILINet.csv', colClasses=c("character","NULL","integer","integer","numeric","numeric","integer","integer","NULL","integer","integer","integer","integer","integer","integer"))
 ili <- as_tibble(ili)
 
 ilidf <- ili %>% 
@@ -73,13 +73,13 @@ fignatcovili <- natcov %>%
 		theme_minimal() +
 		labs(x="", y="Percent Positive (CoV) or Percent Weighted ILI")
 
-ggsave(fignatcovili, file="~/DropboxHarvard/Projects/Wuhan/natcov_ili.pdf", width=8, height=5)
+ggsave(fignatcovili, file="figures/natcov_ili.pdf", width=8, height=5)
 
 # =============================================================================
 # Examine CDC clinical flu:
 # =============================================================================
 
-nrevssclinflu <- read.csv('NREVSSClinicalFlu.csv', colClasses=c("NULL","NULL","integer","integer","integer","integer","integer","numeric","numeric","numeric"))
+nrevssclinflu <- read.csv('data/NREVSSClinicalFlu.csv', colClasses=c("NULL","NULL","integer","integer","integer","integer","integer","numeric","numeric","numeric"))
 nrevssclinflu <- as_tibble(nrevssclinflu)
 
 nrevssclinfludf <- nrevssclinflu %>% 
@@ -100,13 +100,13 @@ fignatcovnrevssclinflu <- natcov %>%
 		theme_minimal() +
 		labs(x="", y="Percent Positive")
 
-ggsave(fignatcovnrevssclinflu, file="~/DropboxHarvard/Projects/Wuhan/natcov_nrevssclinflu.pdf", width=8, height=5)
+ggsave(fignatcovnrevssclinflu, file="figures/natcov_nrevssclinflu.pdf", width=8, height=5)
 
 # =============================================================================
 # Examine CDC public health lab flu:
 # =============================================================================
 
-nrevssphflu <- read.csv('NREVSSPublicHealthFlu.csv', colClasses=c("NULL","NULL","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer"))
+nrevssphflu <- read.csv('data/NREVSSPublicHealthFlu.csv', colClasses=c("NULL","NULL","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer"))
 nrevssphflu <- as_tibble(nrevssphflu)
 
 nrevssphfludf <- nrevssphflu %>% 
@@ -128,4 +128,4 @@ fignatcovnrevssphflu <- natcov %>%
 		theme_minimal() +
 		labs(x="", y="Percent Positive")
 
-ggsave(fignatcovnrevssphflu, file="~/DropboxHarvard/Projects/Wuhan/natcov_nrevssphflu.pdf", width=8, height=5)
+ggsave(fignatcovnrevssphflu, file="figures/natcov_nrevssphflu.pdf", width=8, height=5)
