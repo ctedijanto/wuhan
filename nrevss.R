@@ -22,7 +22,7 @@ fignatcov <- natcov %>%
 		geom_line(alpha=0.8, size=1) + 
 		theme_minimal() 
 
-ggsave(fignatcov, file="~/DropboxHarvard/Projects/Wuhan/natcov.pdf", width=7, height=5)
+# ggsave(fignatcov, file="~/DropboxHarvard/Projects/Wuhan/natcov.pdf", width=7, height=5)
 
 # =============================================================================
 # Plot number of tests over time from Killerby et al.
@@ -41,7 +41,7 @@ figtestsperweek <- ntests %>%
 		theme_minimal() + 
 		theme(text=element_text(size=16))
 
-ggsave(figtestsperweek, file="~/DropboxHarvard/Projects/Wuhan/testsperweek.pdf", width=12, height=5)
+# ggsave(figtestsperweek, file="~/DropboxHarvard/Projects/Wuhan/testsperweek.pdf", width=12, height=5)
 
 # =============================================================================
 # Examine lab-confirmed flu data
@@ -103,7 +103,7 @@ fignatcovili <- natcov %>%
 		labs(x="", y="Percent Positive (CoV) or Percent Weighted ILI")
 
 # =============================================================================
-# A better lab-confirmed flu analysis: NREVSS clinical flu
+# Examine CDC clinical flu:
 # =============================================================================
 
 nrevssflu <- read.csv('NREVSSClinicalFlu.csv', colClasses=c("NULL","NULL","integer","integer","integer","integer","integer","numeric","numeric","numeric"))
@@ -141,9 +141,45 @@ fignatcovnrevssflu_spec <- natcov %>%
 		labs(x="", y="Percent Positive")
 
 
+# =============================================================================
+# Examine CDC public health lab flu:
+# =============================================================================
 
 
+nrevssfluph <- read.csv('NREVSSPublicHealthFlu.csv', colClasses=c("NULL","NULL","integer","integer","integer","integer","integer","integer","integer","integer","integer","integer"))
+nrevssfluph <- as_tibble(nrevssfluph)
 
+nrevssfluphdf <- nrevssfluph %>% 
+	mutate(PERCENTPOSITIVE=(A2009H1N1 + AH3 + ANotSubtyped + B + BVic + BYam + H3N2v)/TOTALSPECIMENS) %>% 
+	select(YEAR, WEEK, PERCENTPOSITIVE, TOTALSPECIMENS) %>% 
+	left_join(yearweekconversion, by=c("YEAR"="Year","WEEK"="Week")) %>%
+	ungroup() %>% 
+	select(Date, PERCENTPOSITIVE, TOTALSPECIMENS) %>% 
+	rename("WEEK"="Date")
+
+fignatcovnrevssfluph <- natcov %>% 
+	left_join(nrevssfluphdf, by=c("Week"="WEEK")) %>% 
+	rename(Flu="PERCENTPOSITIVE") %>% 
+	pivot_longer(c("CoVHKU1","CoVNL63","CoVOC43","CoV229E","Flu"), names_to="Virus", values_to="PercentPositive") %>% 
+	ggplot(aes(x=Week, y=PercentPositive, col=Virus)) + 
+		scale_color_manual(values=c("blue","red","black","magenta","green")) + 
+		geom_point(alpha=0.8, size=0.5) +
+		geom_line(alpha=0.8, size=1) + 
+		theme_minimal() +
+		labs(x="", y="Percent Positive")
+
+
+fignatcovnrevssfluph_spec <- natcov %>% 
+	left_join(nrevssfluphdf, by=c("Week"="WEEK")) %>% 
+	rename(Flu="TOTALSPECIMENS") %>% 
+	mutate(Flu=Flu/1000) %>% 
+	pivot_longer(c("CoVHKU1","CoVNL63","CoVOC43","CoV229E","Flu"), names_to="Virus", values_to="PercentPositive") %>% 
+	ggplot(aes(x=Week, y=PercentPositive, col=Virus)) + 
+		scale_color_manual(values=c("blue","red","black","magenta","green")) + 
+		geom_point(alpha=0.8, size=0.5) +
+		geom_line(alpha=0.8, size=1) + 
+		theme_minimal() +
+		labs(x="", y="Percent Positive")
 
 
 
